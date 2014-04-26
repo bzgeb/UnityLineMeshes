@@ -16,3 +16,10 @@ IT COULD LOOK LIKE THIS?
 
 
 [![ScreenShot](http://37.media.tumblr.com/287f2d8879e025961a6c676fe2402cd1/tumblr_mwmwgdiHzX1s5hzo1o2_500.gif)](http://37.media.tumblr.com/287f2d8879e025961a6c676fe2402cd1/tumblr_mwmwgdiHzX1s5hzo1o2_500.gif)
+
+
+OR THIS?
+
+[![ScreenShot](http://i.imgur.com/kGrlhxi.gif)](http://i.imgur.com/kGrlhxi.gif)
+
+(Courtesy of [@Magdev](https://twitter.com/Magdev_))
