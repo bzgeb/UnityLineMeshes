@@ -11,3 +11,8 @@ In order to use this:
 - Rename "NewLineMesh" to whatever you want and add it to a mesh filter.
 
 NOW YOU'RE DONE
+
+IT COULD LOOK LIKE THIS?
+
+
+[![ScreenShot](http://37.media.tumblr.com/287f2d8879e025961a6c676fe2402cd1/tumblr_mwmwgdiHzX1s5hzo1o2_500.gif)](http://37.media.tumblr.com/287f2d8879e025961a6c676fe2402cd1/tumblr_mwmwgdiHzX1s5hzo1o2_500.gif)
