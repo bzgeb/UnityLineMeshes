@@ -1,12 +1,22 @@
-﻿using UnityEngine;
+﻿/*
+Changes:
+-Double spaces are cleaned out
+-Creates the processed files in the same folder as the input file
+-Automatically names exported files "[Thing]_Lines" and "[Thing]_Mesh"
+*/
+
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class LineProcessor : Editor
 {
     static List<Vector3> vertices;
     static List<int> lineSegments;
+    static string modelPath;
+    static string modelName;
 
     [MenuItem( "Assets/Process Line File" )]
     static void ProcessFile( ) {
@@ -15,33 +25,48 @@ public class LineProcessor : Editor
 
         foreach ( Object textAsset in textAssets ) {
             TextAsset objFile = (TextAsset)textAsset;
+            modelPath = AssetDatabase.GetAssetPath(objFile);
+            modelName = objFile.name;
 
             vertices = new List<Vector3>();
             lineSegments = new List<int>();
 
             string text = objFile.text;
             string[] allLines = text.Split( '\n' );
-            foreach ( string line in allLines ) {
-                if ( line.StartsWith( "v" ) ) {
-                    string[] vertexLineSplit = line.Split( ' ' );
-                    Vector3 v = new Vector3( float.Parse( vertexLineSplit[2] ), float.Parse( vertexLineSplit[3] ), float.Parse( vertexLineSplit[4] ) );
-                    vertices.Add( v );
+            for (int i = 0; i < allLines.Length; i++)
+            {
+                var line = allLines[i];
+
+                //Clean double spaces that some programs export for some reason
+                line = line.Replace("  ", " ");
+
+                //Parse verts
+                if (line.StartsWith("v"))
+                {
+                    string[] vertexLineSplit = line.Split(' ');
+                    Vector3 v = new Vector3(float.Parse(vertexLineSplit[1]), float.Parse(vertexLineSplit[2]), float.Parse(vertexLineSplit[3]));
+                    vertices.Add(v);
                 }
 
-                if ( line.StartsWith( "l" ) ) {
+                //Parse lines
+                if (line.StartsWith("l"))
+                {
                     List<int> lineSegment = new List<int>();
 
-                    string[] lineSplit = line.Split( ' ' );
-                    foreach ( string l in lineSplit ) {
+                    string[] lineSplit = line.Split(' ');
+                    foreach (string l in lineSplit)
+                    {
                         int index;
-                        if ( int.TryParse( l, out index ) ) {
-                            lineSegment.Add( index );
+                        if (int.TryParse(l, out index))
+                        {
+                            lineSegment.Add(index);
                         }
                     }
-                    lineSegment.Add( int.MinValue );
+                    lineSegment.Add(int.MinValue);
 
-                    if ( lineSegment.Count > 0 ) {
-                        lineSegments.AddRange( lineSegment );
+                    if (lineSegment.Count > 0)
+                    {
+                        lineSegments.AddRange(lineSegment);
                     }
                 }
             }
@@ -52,7 +77,10 @@ public class LineProcessor : Editor
 
     static void SaveLineFile() {
         LineModel lm = ScriptableObject.CreateInstance<LineModel>();
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( "Assets/NewLineModel.asset" );
+
+        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(
+            Path.GetDirectoryName(modelPath) + "/" + modelName + "_Lines" + ".asset");
+
         AssetDatabase.CreateAsset( lm, assetPathAndName );
 
         AssetDatabase.StartAssetEditing();
@@ -88,7 +116,10 @@ public class LineProcessor : Editor
             }
             mesh.colors = colors;
 
-            AssetDatabase.CreateAsset( mesh, "Assets/NewLineMesh.asset" );
+            string meshPathAndName = AssetDatabase.GenerateUniqueAssetPath(
+            Path.GetDirectoryName(modelPath) + "/" + modelName + "_Mesh" + ".asset");
+
+            AssetDatabase.CreateAsset(mesh, meshPathAndName);
             AssetDatabase.SaveAssets();
         }
     }
