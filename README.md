@@ -22,4 +22,4 @@ OR THIS?
 
 [![ScreenShot](http://i.imgur.com/kGrlhxi.gif)](http://i.imgur.com/kGrlhxi.gif)
 
-(Courtesy of [@Magdev](https://twitter.com/Magdev_))
+(Courtesy of [@Magdvv](https://twitter.com/magdvv))
